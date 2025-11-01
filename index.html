@@ -17,6 +17,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
     <script>
+        // 设置全局标题常量
+        window.__APP_TITLE = "马老师专属音乐";
+        
         (function () {
             const ua = navigator.userAgent || "";
             const isMobileUA = /android|iphone|ipad|ipod|mobile|blackberry|phone|opera mini|windows phone/i.test(ua);
@@ -304,6 +307,58 @@
         mobileScript.defer = false;
         document.body.appendChild(mobileScript);
     }
+    
+    // 强制设置并保持标题为"马老师专属音乐"
+    document.addEventListener('DOMContentLoaded', function() {
+        const appTitle = "马老师专属音乐";
+        
+        // 设置所有标题元素
+        document.title = appTitle;
+        const h1 = document.querySelector('.header h1');
+        if (h1) h1.textContent = appTitle;
+        const mobileTitle = document.getElementById('mobileToolbarTitle');
+        if (mobileTitle) mobileTitle.textContent = appTitle;
+        
+        // 监听标题变化并重新设置
+        const titleObserver = new MutationObserver(function(mutations) {
+            if (document.title !== appTitle) {
+                document.title = appTitle;
+            }
+        });
+        titleObserver.observe(document.querySelector('title'), { 
+            childList: true, 
+            characterData: true, 
+            subtree: true 
+        });
+        
+        // 监听h1变化
+        if (h1) {
+            const h1Observer = new MutationObserver(function(mutations) {
+                if (h1.textContent !== appTitle) {
+                    h1.textContent = appTitle;
+                }
+            });
+            h1Observer.observe(h1, { 
+                childList: true, 
+                characterData: true, 
+                subtree: true 
+            });
+        }
+        
+        // 监听移动端标题变化
+        if (mobileTitle) {
+            const mobileTitleObserver = new MutationObserver(function(mutations) {
+                if (mobileTitle.textContent !== appTitle) {
+                    mobileTitle.textContent = appTitle;
+                }
+            });
+            mobileTitleObserver.observe(mobileTitle, { 
+                childList: true, 
+                characterData: true, 
+                subtree: true 
+            });
+        }
+    });
 </script>
 </body>
 </html>
